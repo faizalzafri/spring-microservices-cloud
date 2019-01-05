@@ -1,0 +1,68 @@
+spring:  
+  application:
+    name: client-service
+    
+server:
+  port: ${PORT:8081}
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: 123456
+    key-store-type: PKCS12
+    key-alias: client
+    
+endpoints:
+  shutdown:
+    enabled: true
+    sensitive: false
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+    securePortEnabled: true
+    nonSecurePortEnabled: false
+    statusPageUrl: https://${eureka.hostname}:${server.port}/info
+    healthCheckUrl: https://${eureka.hostname}:${server.port}/health
+    homePageUrl: https://${eureka.hostname}:${server.port}/ 
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URL:http://admin:admin@localhost:8761/eureka/}
+      
+---
+spring:
+  profiles: zone1
+eureka:
+  instance:
+    metadataMap:
+      zone: zone1
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+server:  
+  port: ${PORT:9100}
+
+---
+spring:
+  profiles: zone2
+eureka:
+  instance:
+    metadataMap:
+      zone: zone2
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+server:  
+  port: ${PORT:9110}
+  
+---
+spring:
+  profiles: zone3
+eureka:
+  instance:
+    metadataMap:
+      zone: zone3
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+server:  
+  port: ${PORT:9120}
