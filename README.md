@@ -10,4 +10,9 @@
 	-replica
 	-apigateway
 	-zoning
-6.
+6. config
+	-native
+	-native profiles
+	-discovery first
+	-discovery first profiles
+7.
